@@ -1,0 +1,27 @@
+# Task List - Lab 24 Implementation
+
+- [/] **Phase A: RAGAS Evaluation**
+    - [/] Task A.1: Synthetic Test Set Generation (50 questions)
+    - [ ] Task A.2: Run RAGAS 4 Metrics
+    - [ ] Task A.3: Failure Cluster Analysis
+    - [ ] Task A.4: CI/CD Integration Plan (`eval-gate.yml`)
+- [x] **Phase B: LLM-as-Judge & Calibration**
+    - [x] Task B.1: Pairwise Judge Pipeline (Swap-and-average)
+    - [x] Task B.2: Absolute Scoring with Rubric
+    - [x] Task B.3: Human Calibration (Cohen's Kappa)
+    - [x] Task B.4: Bias Observations Report
+- [x] **Phase C: Guardrails Stack**
+    - [x] Task C.1: Input Guardrail: PII Redaction
+    - [x] Task C.2: Input Guardrail: Topic Scope Validator
+    - [x] Task C.3: Adversarial Testing (20 inputs)
+    - [x] Task C.4: Output Guardrail: Llama Guard 3
+    - [x] Task C.5: Full Stack Integration & Latency Benchmark
+- [x] **Phase D: Blueprint Document**
+    - [x] Section 1: SLO Definition
+    - [x] Section 2: Architecture Diagram
+    - [x] Section 3: Alert Playbook
+    - [x] Section 4: Cost Analysis
+- [ ] **Submission**
+    - [ ] Organize repo structure
+    - [ ] Finalize README.md
+    - [ ] Prepare Demo Video script

@@ -1,0 +1,3 @@
+question,answer,ground_truth,accuracy,relevance,conciseness,helpfulness,overall
+What is Lab 24?,Lab 24 is about Eval.,Lab 24 covers Eval & Guardrails.,1,2,4,1,1.5
+How to run RAGAS?,Run evaluate().,Use ragas.evaluate().,2,3,5,2,3.0

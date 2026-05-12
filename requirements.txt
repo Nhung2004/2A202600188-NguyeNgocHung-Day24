@@ -1,0 +1,12 @@
+ragas>=0.1.7
+langchain>=0.1.0
+langchain-openai
+pandas
+numpy
+scikit-learn
+presidio-analyzer
+presidio-anonymizer
+matplotlib
+qdrant-client
+python-dotenv
+pytest
