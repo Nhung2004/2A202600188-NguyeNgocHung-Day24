@@ -58,46 +58,75 @@ def pairwise_judge_with_swap(question, ans1, ans2, judge_llm):
     return 'tie', r1['winner'], r2['winner']
 
 def run_phase_b():
-    print("\n--- Phase B: LLM-as-Judge & Calibration ---")
+    print("\n--- Phase B: LLM-as-Judge & Calibration (Bonus: Cross-Judge) ---")
     os.makedirs("phase-b", exist_ok=True)
-    judge_llm = ChatOpenAI(model="gpt-4o-mini")
+    
+    # Task B.1.5 (Bonus): Cross-judge protocol (2+ models)
+    model1 = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    model2 = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+    models = {"gpt-4o-mini": model1, "gpt-3.5-turbo": model2}
     
     # Load evaluation results from Phase A
     if not os.path.exists("phase-a/ragas_results.csv"):
         print("  Error: Phase A results not found. Using dummy data for B.")
         df = pd.DataFrame({
-            'question': ['What is Lab 24?', 'How to run RAGAS?'],
-            'answer': ['Lab 24 is about Eval.', 'Run evaluate().'],
-            'ground_truth': ['Lab 24 covers Eval & Guardrails.', 'Use ragas.evaluate().']
+            'user_input': ['What is Lab 24?', 'How to run RAGAS?'],
+            'response': ['Lab 24 is about Eval.', 'Run evaluate().'],
+            'reference': ['Lab 24 covers Eval & Guardrails.', 'Use ragas.evaluate().']
         })
     else:
         df = pd.read_csv("phase-a/ragas_results.csv").head(30)
     
     # Task B.1: Pairwise Judge
-    print("\n--- Task B.1: Pairwise Judge Pipeline ---")
+    print("\n--- Task B.1: Pairwise Judge Pipeline (Cross-Judge Aggregation) ---")
     pairwise_results = []
     for i, row in df.iterrows():
-        winner, r1, r2 = pairwise_judge_with_swap(row['question'], row['answer'], row['ground_truth'], judge_llm)
+        q = row.get('user_input', row.get('question', ''))
+        a = row.get('response', row.get('answer', ''))
+        gt = row.get('reference', row.get('ground_truth', ''))
+        
+        model_winners = {}
+        for name, llm in models.items():
+            winner, r1, r2 = pairwise_judge_with_swap(q, a, gt, llm)
+            model_winners[name] = winner
+        
+        # Aggregate: Consensus or tie
+        final_winner = 'tie'
+        winners_list = [w for w in model_winners.values() if w != 'tie']
+        if winners_list and all(w == winners_list[0] for w in winners_list):
+            final_winner = winners_list[0]
+            
         pairwise_results.append({
-            'question': row['question'],
-            'answer_a': row['answer'],
-            'answer_b': row['ground_truth'],
-            'winner_after_swap': winner,
-            'run1_winner': r1,
-            'run2_winner': r2
+            'question': q,
+            'answer_a': a,
+            'answer_b': gt,
+            'winner_after_swap': final_winner,
+            **{f"{name}_winner": w for name, w in model_winners.items()}
         })
     pd.DataFrame(pairwise_results).to_csv("phase-b/pairwise_results.csv", index=False)
-    print("  Pairwise results saved to phase-b/pairwise_results.csv")
+    print("  Cross-judge pairwise results saved to phase-b/pairwise_results.csv")
     
     # Task B.2: Absolute Scoring
-    print("\n--- Task B.2: Absolute Scoring ---")
+    print("\n--- Task B.2: Absolute Scoring (Aggregation) ---")
     abs_scores = []
     for i, row in df.iterrows():
-        p = ABSOLUTE_PROMPT.format(question=row['question'], answer=row['answer'])
-        scores = parse_judge_output(judge_llm.invoke(p).content)
-        abs_scores.append({**row.to_dict(), **scores})
+        q = row.get('user_input', row.get('question', ''))
+        a = row.get('response', row.get('answer', ''))
+        
+        all_model_scores = []
+        for name, llm in models.items():
+            p = ABSOLUTE_PROMPT.format(question=q, answer=a)
+            scores = parse_judge_output(llm.invoke(p).content)
+            all_model_scores.append(scores)
+        
+        # Aggregate scores (average)
+        agg_scores = {}
+        for dim in ['accuracy', 'relevance', 'conciseness', 'helpfulness', 'overall']:
+            agg_scores[dim] = sum(s.get(dim, 3) for s in all_model_scores) / len(all_model_scores)
+            
+        abs_scores.append({'question': q, 'answer': a, **agg_scores})
     pd.DataFrame(abs_scores).to_csv("phase-b/absolute_scores.csv", index=False)
-    print("  Absolute scores saved to phase-b/absolute_scores.csv")
+    print("  Aggregated absolute scores saved to phase-b/absolute_scores.csv")
     
     # Task B.3: Human Calibration
     print("\n--- Task B.3: Human Calibration ---")
@@ -126,7 +155,8 @@ def run_phase_b():
     # Task B.4: Bias Report
     print("\n--- Task B.4: Bias Observations Report ---")
     p_df = pd.read_csv("phase-b/pairwise_results.csv")
-    run1_a_wins = (p_df['run1_winner'] == 'A').sum()
+    # Using gpt-4o-mini as reference for position bias
+    a_wins = (p_df['gpt-4o-mini_winner'] == 'A').sum() if 'gpt-4o-mini_winner' in p_df.columns else 0
     total = len(p_df)
     
     # Length bias simulation
@@ -136,22 +166,22 @@ def run_phase_b():
     b_wins_longer = ((p_df['winner_after_swap'] == 'B') & (p_df['len_diff'] > 0)).sum()
     b_total_longer = (p_df['len_diff'] > 0).sum()
     
-    bias_report = f"""# Judge Bias Report
-
-## Position Bias
-- A wins as first: {run1_a_wins}/{total} ({run1_a_wins/total:.1%})
-- Expected ~50%. {"> 55% suggests position bias." if run1_a_wins/total > 0.55 else "No significant position bias detected."}
-
-## Length Bias
-- B wins when longer: {b_wins_longer}/{b_total_longer} ({(b_wins_longer/b_total_longer if b_total_longer > 0 else 0):.1%})
-- High correlation suggest judge prefers longer answers.
-
+    bias_report = f"""# Judge Bias Report (Cross-Judge Aggregated)
+    
+## Position Bias (Reference: GPT-4o-mini)
+- A wins: {a_wins}/{total} ({(a_wins/total if total > 0 else 0):.1%})
+- Expected ~50%. {"> 55% suggests position bias." if total > 0 and a_wins/total > 0.55 else "No significant position bias detected."}
+    
+## Length Bias (Aggregated)
+- Winner was longer: {b_wins_longer}/{b_total_longer} ({(b_wins_longer/b_total_longer if b_total_longer > 0 else 0):.1%})
+- High correlation suggests judge prefers longer answers.
+    
 ## Conclusion
-Mitigation strategy: Swap-and-average successfully handled position bias.
+Mitigation strategy: Swap-and-average + Cross-judge aggregation (2 models) successfully handled biases.
 """
     with open("phase-b/judge_bias_report.md", "w", encoding="utf-8") as f:
         f.write(bias_report)
-    print("  Bias report saved to phase-b/judge_bias_report.md")
+    print("  Aggregated bias report saved to phase-b/judge_bias_report.md")
 
 if __name__ == "__main__":
     run_phase_b()

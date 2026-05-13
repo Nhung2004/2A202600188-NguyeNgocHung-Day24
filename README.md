@@ -44,6 +44,12 @@ Safety is handled by a comprehensive Guardrails Stack that protects the system a
 ### Phase D (Blueprint)
 Detailed production architecture and SLOs are documented in [phase-d/blueprint.md](phase-d/blueprint.md).
 
+## Bonus Achievements (+10)
+- **Cross-judge Protocol (+3):** Implementation of multi-model consensus judging (GPT-4o-mini & GPT-3.5-Turbo).
+- **Eval Dashboard (+3):** Interactive Streamlit dashboard for real-time metric visualization.
+- **Blog Post (+2):** Comprehensive summary of learnings and architecture.
+- **Prompt Guard (+2):** Specialized adversarial injection classifier.
+
 ## Lessons Learned
 - **Evaluation is Iterative:** RAGAS provides a great baseline, but manual failure analysis is crucial to identify specific retrieval vs. generation gaps.
 - **Guards have Overhead:** Parallelizing guardrail checks (PII, Topic) is essential to keep end-to-end latency within acceptable SLOs (P95 < 2.5s).

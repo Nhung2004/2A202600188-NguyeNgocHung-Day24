@@ -1,3 +1,45 @@
-question,answer,ground_truth,accuracy,relevance,conciseness,helpfulness,overall
-What is Lab 24?,Lab 24 is about Eval.,Lab 24 covers Eval & Guardrails.,1,2,4,1,1.5
-How to run RAGAS?,Run evaluate().,Use ragas.evaluate().,2,3,5,2,3.0
+question,answer,accuracy,relevance,conciseness,helpfulness,overall
+What are the key components and tasks involved in Lab 24 for data science trainees?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+What does Task A.3 involve in Lab 24?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+What is the focus of Task A.4 in Lab 24?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+What you learn in Lab 24 at VinUniversity and what you need to prepare before start?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+What is the significance of VinUniversity in the context of RAG pipelines?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+What is the role of Cost Analisis in the overall evaluation process of the project?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+What is RAGAS in the context of the phases mentioned?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+What is included in the Self-Assessment Checklist for Phase A in the context of RAG pipelines?,"Self-Assessment Checklist for Phase A in the context of RAG pipelines includes the following item:
+
+- A.1.1 — testset_v1.csv có ≥50 rows. 
+
+Thông tin chi tiết về các mục khác không có sẵn trong context.",3.5,4.5,4.0,3.5,3.875
+Cần chuẩn bị gì trước khi bắt đầu lab về Llama Guard 3 trong hệ thống đánh giá và guardrail?,"Bạn cần các artifacts sau từ các lab trước (đảm bảo chúng chạy được):
+- RAG pipeline từ Day 18 — phải chạy được retrieval + generation
+- Document corp
+
+Ngoài ra, Llama Guard 3 yêu cầu HF token + license accept — đăng ký trước lab.",4.5,5.0,4.0,4.5,4.5
+What skills will a Data Science Trainee learn by 2026 in the lab focused on evaluation and guardrail systems?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+Chào mừng đến với Lab 24! Bạn có thể cho tôi biết mục tiêu chính của Lab 24 là gì không?,"Mục tiêu chính của Lab 24 là xây dựng một hệ thống đánh giá và guardrail sẵn sàng cho môi trường sản xuất cho pipeline RAG của người học, như cách các đội ngũ AI hàng đầu đang thực hiện vào năm 2026.",4.0,5.0,3.5,4.0,4.125
+What does AICB stand for in the context of the lab?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+VinUniversiti la gi?,Không tìm thấy thông tin.,3.0,3.0,5.0,1.0,2.8
+Làm thế nào để kiểm tra RAGAS trước khi bắt đầu lab?,"Để kiểm tra RAGAS trước khi bắt đầu lab, bạn cần chạy lệnh sau trong terminal:
+
+```bash
+python -m your_rag_module.test_query ""What is X?""
+```
+
+Nếu bất kỳ check nào fail, hãy sửa lỗi trước khi bắt đầu lab, vì nếu không có RAG pipeline, bạn sẽ gặp khó khăn.",5.0,5.0,4.5,5.0,4.875
+"How does the lab structure at VinUniversity facilitate the learning process for data science trainees, particularly in the context of RAG pipelines and evaluation metrics?",Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+VinUniversiti có những yêu cầu gì để chạy RAG pipeline?,Không tìm thấy thông tin.,3.0,3.0,5.0,1.0,2.75
+Can you explain how to implement RAGAS in a CI/CD pipeline for evaluating AI systems?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+How is JSON utilized in the context of the judge comparison pipeline?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+GitHub là gì và làm sao nó giúp trong việc quản lý dự án?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.625
+How can GitHub be utilized in the CI/CD integration plan for RAG evaluation?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+Can you explain how VinUniversity is involved in the evaluation and scoring process using absolute scoring and Cohen's Kappa?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+Can you explain what absolute_scores.csv is used for in the context of scoring answers?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+What is Cohen's kappa used for in the context of human calibration?,Cohen's kappa is used to compute the agreement between human labels for a set of pairwise comparisons to assess the accuracy of those labels in the context of human calibration.,5.0,5.0,4.5,5.0,4.875
+What is the purpose of pairwise_results.csv in the evaluation process?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+What is Guardrails AI used for?,"Guardrails AI is used to provide validation for user input by ensuring that it falls within specified valid topics, such as ""banking,"" ""loans,"" and ""cards.""",4.5,5.0,4.5,4.5,4.625
+What is the role of torch in the context of deploying Llama Guard 3?,"Trong ngữ cảnh triển khai Llama Guard 3, vai trò của torch là để hỗ trợ việc xác định kiểu dữ liệu (torch_dtype) của mô hình, cho phép sử dụng loại dữ liệu bfloat16, và chắc chắn rằng mô hình được triển khai trên thiết bị phù hợp thông qua cấu hình ""device_map"".",4.5,5.0,3.5,4.5,4.375
+What is VinUniversity and how does it relate to the evaluation of AI systems?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+What is the role of AutoModelForCausalLM in output safety checks?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+VinUniversity la gi?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75
+What is VinUniversity's role in the context of the Llama Guard API?,Không tìm thấy thông tin.,1.0,1.0,5.0,1.0,1.75

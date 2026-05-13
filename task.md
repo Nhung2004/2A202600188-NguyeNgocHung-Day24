@@ -21,7 +21,13 @@
     - [x] Section 2: Architecture Diagram
     - [x] Section 3: Alert Playbook
     - [x] Section 4: Cost Analysis
-- [ ] **Submission**
-    - [ ] Organize repo structure
-    - [ ] Finalize README.md
+- [x] **Submission**
+    - [x] Organize repo structure
+    - [x] Finalize README.md
     - [ ] Prepare Demo Video script
+
+- [x] **Bonus Points (+10)**
+    - [x] Cross-judge protocol (+3)
+    - [x] Eval dashboard (+3)
+    - [x] Blog post (+2)
+    - [x] Prompt Guard (+2)
