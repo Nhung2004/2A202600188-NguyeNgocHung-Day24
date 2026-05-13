@@ -59,10 +59,10 @@ def task_a1_generate_testset():
     ]
     
     # Generate test set
-    print("  Generating 5 questions (this may take a while)...")
+    print("  Generating 50 questions (this may take a while)...")
     testset = generator.generate_with_langchain_docs(
         documents=documents,
-        testset_size=5,
+        testset_size=50,
         query_distribution=query_distribution
     )
     
@@ -72,7 +72,8 @@ def task_a1_generate_testset():
     
     # Manual review simulation (modifying one question as required)
     # Task A.1.5: Phải có ít nhất 1 câu được bạn chỉnh sửa
-    df.at[0, 'question'] = df.at[0, 'question'] + " (Reviewer edited)"
+    col_to_edit = 'user_input' if 'user_input' in df.columns else 'question'
+    df.at[0, col_to_edit] = df.at[0, col_to_edit] + " (Reviewer edited)"
     df.to_csv("phase-a/testset_v1.csv", index=False)
     
     with open("phase-a/testset_review_notes.md", "w", encoding="utf-8") as f:

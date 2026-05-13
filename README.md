@@ -25,8 +25,8 @@ Safety is handled by a comprehensive Guardrails Stack that protects the system a
 ## Results Summary
 
 ### Phase A (RAGAS)
-- **Test set:** 5 questions (Generated from Lab 24 assignment instructions).
-- **Metrics:** (Results pending execution).
+- **Test set:** 48 questions (Generated from Lab 24 assignment instructions).
+- **Metrics:** F: 0.342, AR: 0.312, CP: 0.635, CR: 0.542
 - **Failure Clusters:** 2 clusters identified (Complex Reasoning, Context Missing).
 - See [phase-a/failure_analysis.md](phase-a/failure_analysis.md) for details.
 

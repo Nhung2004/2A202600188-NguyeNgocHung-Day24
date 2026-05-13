@@ -1,10 +1,10 @@
 # Task List - Lab 24 Implementation
 
-- [/] **Phase A: RAGAS Evaluation**
-    - [/] Task A.1: Synthetic Test Set Generation (50 questions)
-    - [ ] Task A.2: Run RAGAS 4 Metrics
-    - [ ] Task A.3: Failure Cluster Analysis
-    - [ ] Task A.4: CI/CD Integration Plan (`eval-gate.yml`)
+- [x] **Phase A: RAGAS Evaluation**
+    - [x] Task A.1: Synthetic Test Set Generation (50 questions)
+    - [x] Task A.2: Run RAGAS 4 Metrics
+    - [x] Task A.3: Failure Cluster Analysis
+    - [x] Task A.4: CI/CD Integration Plan (`eval-gate.yml`)
 - [x] **Phase B: LLM-as-Judge & Calibration**
     - [x] Task B.1: Pairwise Judge Pipeline (Swap-and-average)
     - [x] Task B.2: Absolute Scoring with Rubric
